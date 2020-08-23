@@ -17,18 +17,28 @@
       <b-form-checkbox-group
         :id="id"
         v-model="selected"
-        :options="flavours"
         name="flavors"
         class="ml-4"
         aria-label="Individual flavours"
         stacked
-      ></b-form-checkbox-group>
+        v-for="data in flavours"
+        :key="data"
+      >
+        <b-form-checkbox  v-if="data.length === undefined"
+        :value="data.toString()">
+          {{ data}}
+        </b-form-checkbox>
+        <VueChexbox name=190 id=492  :flavours="data" v-if="data.length != undefined">
+
+        </VueChexbox>
+      </b-form-checkbox-group>
     </b-form-group>
   </div>
 </template>
 
 <script>
   export default {
+    name: "VueChexbox",
     props:["flavours", "name", "id"],
     data() {
       return {
