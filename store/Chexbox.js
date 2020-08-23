@@ -9,7 +9,8 @@ export const mutations  =  {
         state.chexbox.push(data);
     },
     DeleteChexbox(state, data){
-        delete state.chexbox.indexOf(data);
+        let a = state.chexbox.indexOf(data);
+        delete state.chexbox[a];
     }
  
 }

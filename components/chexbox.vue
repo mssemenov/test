@@ -34,37 +34,50 @@
       return {
         selected: [],
         allSelected: false,
-        indeterminate: false
+        indeterminate: false,
+        chexboxSelected: false,
       }
     },
     methods: {
       toggleAll(checked) {
         this.selected = checked ? this.flavours.slice() : []
+      },
+      DeleteAll(){ // удалить с Vuex все значения
+        let flavours = this.flavours;
+        flavours.forEach(element => {
+            this.$store.commit("Chexbox/DeleteChexbox", element);
+          });
+          this.chexboxSelected = true;
       }
     },
     watch: {
       selected(newVal, oldVal) {
-        console.log( "Новое значение " + newVal);
-        console.log( "Старое значение " + oldVal);
-        console.log(newVal.length < oldVal.length);
-        // Handle changes in individual flavour checkboxes
-        if (newVal.length === 0) {
+        if (newVal.length === 0) { // Родитель пустой
           this.indeterminate = false
           this.allSelected = false
-        } else if (newVal.length === this.flavours.length) {
+          //  ОПЕРАЦИИ С VUEX
+          let flavours = this.flavours;
+          this.DeleteAll();
+          this.$store.commit("Chexbox/DeleteChexbox", this.id);
+          
+        } else if (newVal.length === this.flavours.length) { // Родитель Полный
           this.indeterminate = false
-          this.allSelected = true
-        } else {
+          this.allSelected = this.id;
+          //  ОПЕРАЦИИ С VUEX
+          this.DeleteAll();
+          this.$store.commit("Chexbox/SetChexbox", this.id);
+        } else { // Выбран потомок
           this.indeterminate = true
           this.allSelected = false
         }
-        if(newVal.length > oldVal.length){
+        if(newVal.length > oldVal.length && !this.chexboxSelected){ // появился новый chexbox
           this.$store.commit("Chexbox/SetChexbox", newVal[newVal.length -1]);
         }
-        if(newVal.length < oldVal.length){
+        if(newVal.length < oldVal.length && !this.chexboxSelected){// убрали  отмечанный  chexbox
           this.$store.commit("Chexbox/DeleteChexbox", oldVal[oldVal.length -1]);
         }
-        console.log(this.$store.getters["Chexbox/GetChexbox"]);
+        this.chexboxSelected = false;
+        console.log( this.$store.getters["Chexbox/GetChexbox"]);
       }
     },
     created () {
