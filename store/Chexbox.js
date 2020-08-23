@@ -1,7 +1,7 @@
 
 // data --------------
 export const state = () =>({
-     chexbox: []
+     chexbox: [],
 })
 // mutations ---------------------
 export const mutations  =  {
