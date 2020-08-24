@@ -28,9 +28,7 @@
         :value="data.toString()">
           {{ data}}
         </b-form-checkbox>
-        <VueChexbox name=190 id=492  :flavours="data" v-if="data.length != undefined">
-
-        </VueChexbox>
+        <VueChexbox name="Диски" id=492  :flavours="data" v-if="data.length != undefined"/>
       </b-form-checkbox-group>
     </b-form-group>
   </div>
@@ -62,13 +60,17 @@
     },
     watch: {
       selected(newVal, oldVal) {
+        console.log("Новое значение" + newVal);
+          console.log("Старое значение" + oldVal);
         if (newVal.length === 0) { // Родитель пустой
+          console.log("Родитель пуст");
           this.indeterminate = false
           this.allSelected = false
           //  ОПЕРАЦИИ С VUEX
           let flavours = this.flavours;
           this.DeleteAll();
           this.$store.commit("Chexbox/DeleteChexbox", this.id);
+          //  ОПЕРАЦИИ С VUEX
           
         } else if (newVal.length === this.flavours.length) { // Родитель Полный
           this.indeterminate = false
@@ -76,10 +78,12 @@
           //  ОПЕРАЦИИ С VUEX
           this.DeleteAll();
           this.$store.commit("Chexbox/SetChexbox", this.id);
+          //  ОПЕРАЦИИ С VUEX
         } else { // Выбран потомок
           this.indeterminate = true
           this.allSelected = false
         }
+        //  ОПЕРАЦИИ С VUEX
         if(newVal.length > oldVal.length && !this.chexboxSelected){ // появился новый chexbox
           this.$store.commit("Chexbox/SetChexbox", newVal[newVal.length -1]);
         }
@@ -88,10 +92,8 @@
         }
         this.chexboxSelected = false;
         console.log( this.$store.getters["Chexbox/GetChexbox"]);
+        //  ОПЕРАЦИИ С VUEX
       }
-    },
-    created () {
-      // console.log(this.flavours);
     },
   }
 </script>
