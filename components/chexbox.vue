@@ -2,34 +2,30 @@
   <div>
     <b-form-group>
       <template v-slot:label>
-        <b-form-checkbox
+        <b-form-checkbox v-on:change="toggleAll"
           v-model="allSelected"
           :value="id"
           :indeterminate="indeterminate"
           aria-describedby="flavours"
           aria-controls="flavours"
-          @change="toggleAll"
+      
         >
           {{ name }}
         </b-form-checkbox>
       </template>
 
-      <b-form-checkbox-group
-        :id="id"
-        v-model="selected"
+      <b-form-group class="ml-4"
         name="flavors"
-        class="ml-4"
-        aria-label="Individual flavours"
-        stacked
         v-for="data in flavours"
-        :key="data"
+        :key="data.id"
       >
         <b-form-checkbox  v-if="data.length === undefined"
-        :value="data.toString()">
+                v-model="selected"
+        :value="data">
           {{ data}}
         </b-form-checkbox>
-        <VueChexbox name="Диски" id=492  :flavours="data" v-if="data.length != undefined"/>
-      </b-form-checkbox-group>
+        <VueChexbox name="Диски" id=592  :flavours="data" v-if="data.length != undefined"/>
+      </b-form-group>
     </b-form-group>
   </div>
 </template>
@@ -41,13 +37,14 @@
     data() {
       return {
         selected: [],
-        allSelected: false,
+        allSelected: [],
         indeterminate: false,
         chexboxSelected: false,
       }
     },
     methods: {
       toggleAll(checked) {
+        console.log(checked);
         this.selected = checked ? this.flavours.slice() : []
       },
       DeleteAll(){ // удалить с Vuex все значения
@@ -65,7 +62,7 @@
         if (newVal.length === 0) { // Родитель пустой
           console.log("Родитель пуст");
           this.indeterminate = false
-          this.allSelected = false
+          this.allSelected = []
           //  ОПЕРАЦИИ С VUEX
           let flavours = this.flavours;
           this.DeleteAll();
@@ -81,7 +78,7 @@
           //  ОПЕРАЦИИ С VUEX
         } else { // Выбран потомок
           this.indeterminate = true
-          this.allSelected = false
+          this.allSelected = this.id;
         }
         //  ОПЕРАЦИИ С VUEX
         if(newVal.length > oldVal.length && !this.chexboxSelected){ // появился новый chexbox
@@ -91,7 +88,7 @@
           this.$store.commit("Chexbox/DeleteChexbox", oldVal[oldVal.length -1]);
         }
         this.chexboxSelected = false;
-        console.log( this.$store.getters["Chexbox/GetChexbox"]);
+        // console.log( this.$store.getters["Chexbox/GetChexbox"]);
         //  ОПЕРАЦИИ С VUEX
       }
     },
