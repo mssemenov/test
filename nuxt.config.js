@@ -1,5 +1,8 @@
 
 export default {
+  router: {
+    prefetchLinks: false
+  },
   /*
   ** Nuxt rendering mode
   ** See https://nuxtjs.org/api/configuration-mode
@@ -14,6 +17,9 @@ export default {
   ** Headers of the page
   ** See https://nuxtjs.org/api/configuration-head
   */
+ server: {
+  port: 8000,
+ },
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -29,12 +35,15 @@ export default {
   ** Global CSS
   */
   css: [
+    "@/assets/css/main.css",
   ],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    {src: './plugins/ConfingAxios.js'},
+
   ],
   /*
   ** Auto import components
@@ -51,7 +60,9 @@ export default {
   */
   modules: [
     // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
+    ['bootstrap-vue/nuxt',{
+      icons: true,
+    }],
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
   ],
@@ -59,11 +70,18 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {},
+  axios: {
+    // baseURL: "http://10.0.30.95:8000/api/v1"
+  },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    extractCSS: true,
+  },
+  env: {
+    api: "http://194.67.113.201:8080",
+    // apiMedia: "http://10.0.30.95:8000",
   }
 }
