@@ -9,7 +9,10 @@ export const mutations  =  {
 
 
 export const actions = { 
-    ChexboxCheckAll({commit, dispatch, getters}, name){
-        console.log(getters[name]);
+    ChexboxCheckAll({store, commit, dispatch, getters}, arr){
+        arr.forEach(element => {
+            commit("SetChecboxCheckedType", {data:element , value: true });
+        });
+        console.log(arr);
     }
 }

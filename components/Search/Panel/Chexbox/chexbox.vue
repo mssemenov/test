@@ -18,7 +18,8 @@ export default {
             console.groupCollapsed("ДАнные при клике");
                 console.warn("CheckedType " + this.dataset.CheckedType);
             console.groupEnd();
-            this.$store.dispatch("Catalog/Chexbox/ChexboxCheckAll");
+            this.$store.dispatch("Catalog/Chexbox/ChexboxCheckAll" , this.$store.getters["Categories/CategoriesAll/GetCategories"]);
+            console.log();
         }
     },
 }
